@@ -18,3 +18,8 @@ This repository contains the laboratory assignments, implementations, and academ
   Shell execution model, pathname expansions, quote handling, file descriptor redirection, analytical stream pipelines, and automated reporting scripts.
 - **Lab 4: The xv6 Shell from the Outside**  
   Comparative study between minimalist educational userland (`user/sh.c`) and GNU Bash, argument tokenization analysis (`args.c` / `args_linux.c`), and directory resolution mechanics.
+- **Lab 5: The File System with Your Own Hands (Linux)**  
+  VFS hierarchy inspection, inode metadata structures, hard and symbolic link mechanics, Discretionary Access Control (DAC), directory traversal search bits, sparse file allocation, and kernel pseudofilesystems (`/proc`).
+- **Lab 6: Inside the xv6 File System**  
+  Low-level analysis of xv6 on-disk structures, decoding file types, implementation of userland `mystat` and recursive `find` utilities, hard link lifecycle tracking across `ln` and `rm`, and verification of storage capacity limits.
+
