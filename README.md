@@ -22,4 +22,8 @@ This repository contains the laboratory assignments, implementations, and academ
   VFS hierarchy inspection, inode metadata structures, hard and symbolic link mechanics, Discretionary Access Control (DAC), directory traversal search bits, sparse file allocation, and kernel pseudofilesystems (`/proc`).
 - **Lab 6: Inside the xv6 File System**  
   Low-level analysis of xv6 on-disk structures, decoding file types, implementation of userland `mystat` and recursive `find` utilities, hard link lifecycle tracking across `ln` and `rm`, and verification of storage capacity limits.
+- **Lab 7: Three Small Programs (Linux)**  
+  Investigation of Linux process lifetime orchestration via `fork()`, `exec()`, and `waitpid()`, observation and reaping of defunct zombie processes, file descriptor table redirection without binary modifications, and construction of multi-stage inter-process communication pipelines (`pipeline` and `pipeline3`).
+- **Lab 8: The Same Calls Inside Your Own OS (xv6)**  
+  Porting process lifecycle management (`run.c`) to the xv6 RISC-V kernel, evaluating execution error reporting conventions against POSIX Linux, constructing a bidirectional inter-process communication exchange (`pingpong.c`) via dual unidirectional pipes, and developing a concurrent prime number sieve pipeline (`primes.c`).
 
