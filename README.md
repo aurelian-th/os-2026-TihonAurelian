@@ -26,4 +26,8 @@ This repository contains the laboratory assignments, implementations, and academ
   Investigation of Linux process lifetime orchestration via `fork()`, `exec()`, and `waitpid()`, observation and reaping of defunct zombie processes, file descriptor table redirection without binary modifications, and construction of multi-stage inter-process communication pipelines (`pipeline` and `pipeline3`).
 - **Lab 8: The Same Calls Inside Your Own OS (xv6)**  
   Porting process lifecycle management (`run.c`) to the xv6 RISC-V kernel, evaluating execution error reporting conventions against POSIX Linux, constructing a bidirectional inter-process communication exchange (`pingpong.c`) via dual unidirectional pipes, and developing a concurrent prime number sieve pipeline (`primes.c`).
+- **Lab 9: Watching System Calls (Linux)**  
+  Runtime interception and decoding of system call transitions across the CPU privilege boundary using `strace`, analysis of shared library loading and standard output descriptors during `ls -l` execution, low-level unbuffered POSIX file I/O implementation (`syscalls.c`), and verification of standard stream allocation conventions and descriptor table reuse.
+- **Lab 10: Add a System Call, trace (xv6)**  
+  Extending the xv6 RISC-V monolithic operating system kernel with a custom diagnostic system call (`trace`), implementing userland assembly stubs (`usys.pl` / `usys.S`) and execution wrappers (`trace.c`), tracking per-process bitmasks (`struct proc`), extracting register arguments via `argint()`, intercepting return values in `syscall()`, and propagating trace filters across child process hierarchies (`fork()`).
 
