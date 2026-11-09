@@ -102,3 +102,47 @@ close(3)                                = 0
 
 2. **Re-allocation of Descriptor 3:**  
    After closing descriptor 3 via `close(fd);`, descriptor slot 3 returns to the pool of unallocated descriptors. Consequently, the subsequent `open("note.txt", O_RDONLY)` again finds slot 3 as the lowest available slot and allocates descriptor **3** a second time.
+
+---
+
+## Part 3: Counting One Kind of Call (`strace -c`)
+
+### Execution Command
+```bash
+strace -c -e trace=write ./syscalls
+```
+Complementary execution on a standard command:
+```bash
+strace -c -e trace=write ls -l
+```
+
+### Execution Outputs
+Executing `strace -c -e trace=write ./syscalls`:
+```text
+open returned descriptor 3
+write sent 14 bytes
+read got 14 bytes: hello, kernel
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000047          11         4           write
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000047          11         4           total
+```
+
+Executing `strace -c -e trace=write ls -l`:
+```text
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000021          21         1           write
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000021          21         1           total
+```
+
+### Observations and Analysis
+1. **Profiling Mechanics of `strace -c`:**  
+   The `-c` (summary-only) option instructs `strace` to intercept system call entries and exits silently during execution, recording timing metrics, call frequencies, and error occurrences in an internal hash table. Upon process termination, `strace` emits a clean tabular breakdown detailing percentage of execution time, total elapsed seconds, microsecond latency per call, total calls, and error counts.
+
+2. **Targeted Counting of a Single System Call Class:**  
+   By combining `-c` with `-e trace=write`, `strace` isolates and tallies solely the specified system call:
+   - For `./syscalls`, the summary registers exactly 4 `write` invocations: three status strings formatted and emitted via `printf()` to standard output (`STDOUT_FILENO`), and one direct unbuffered payload transfer (`write(3, msg, 14)`) to `note.txt`.
+   - For `ls -l`, the summary registers exactly 1 `write` invocation, confirming that `ls` collects directory entries in userland memory and flushes the entire formatted listing in a single batch transmission to descriptor 1.
