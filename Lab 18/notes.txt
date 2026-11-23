@@ -1,0 +1,13 @@
+Laboratory Work No. 18: Build a User-Level Thread Switch (xv6)
+Student: Tihon Aurelian-Mihai
+Group: FAF-241
+Supervisor: univ. assist. Patricia Reitman
+
+Observe Answer
+
+What exactly does thread_switch save and load? Why is ra the register that makes execution continue in the other thread?
+
+thread_switch(struct context *old, struct context *new) takes two pointers in registers a0 (old) and a1 (new). It saves the 14 RISC-V callee-saved registers of the outgoing thread into old->ctx (offsets 0..104: ra, sp, and s0..s11) using sd instructions, and then loads those same 14 registers of the incoming thread from new->ctx using ld instructions. Caller-saved registers (such as t0..t6 and a0..a7) do not need to be saved in thread_switch because the RISC-V calling convention already guarantees the caller of thread_switch (thread_schedule) expects them to be clobbered across a function call.
+
+The ret instruction at the end of thread_switch is an alias for jalr x0, 0(ra), which sets the program counter (pc) to the address currently in ra. Because thread_switch loaded the incoming thread's saved ra from new->ctx before executing ret, ret does not jump back to the thread that called thread_switch; instead, it jumps to the saved ra of the new thread: either the entry address of its thread function (on its very first switch, set in thread_create) or the instruction right after its previous thread_switch call inside thread_schedule (on every subsequent resume), seamlessly continuing execution on the new thread's stack (sp).
+
